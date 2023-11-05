@@ -11,12 +11,9 @@ interface RunDao {
     @Insert
     suspend fun insertRun(run: Run)
 
-    @Delete
-    suspend fun deleteRun(run: Run)
-
     @Query("SELECT * FROM run_table")
     fun getRunData(): Flow<List<Run>>
 
     @Query("DELETE FROM run_table WHERE id = :key")
-    suspend fun deleteData(key: Long)
+    suspend fun deleteRun(key: Long)
 }

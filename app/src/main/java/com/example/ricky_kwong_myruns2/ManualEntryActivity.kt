@@ -21,9 +21,16 @@ class ManualEntryActivity : AppCompatActivity() {
     var heartRateInput: String = ""
     var commentInput: String = ""
 
+    private lateinit var database: RunDatabase
+    private lateinit var databaseDao: RunDao
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manual_entry)
+
+        database = RunDatabase.getInstance(this)
+
         //below calendardialog implementation from https://stackoverflow.com/questions/45842167/how-to-use-datepickerdialog-in-kotlin
         var calendar = Calendar.getInstance()
 
