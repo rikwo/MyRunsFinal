@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [Run::class], version = 1)
 //RunDatabase from XD lecture
 abstract class RunDatabase: RoomDatabase() {
-    abstract val dao: RunDao
+    abstract val runDao: RunDao
     companion object{
         //The Volatile keyword guarantees visibility of changes to the INSTANCE variable across threads
         @Volatile

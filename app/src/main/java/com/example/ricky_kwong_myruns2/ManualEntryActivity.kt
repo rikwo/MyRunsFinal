@@ -10,8 +10,12 @@ import android.text.InputType
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import java.sql.Date
 import java.sql.Time
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
+
 
 class ManualEntryActivity : AppCompatActivity() {
 
@@ -23,13 +27,22 @@ class ManualEntryActivity : AppCompatActivity() {
 
     private lateinit var database: RunDatabase
     private lateinit var databaseDao: RunDao
+    private lateinit var runRepository: RunRepository
+    private lateinit var viewModelFactory: RunViewModelFactory
+    private lateinit var runViewModel: RunViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manual_entry)
 
+        val bundle: Bundle? = intent.extras
+        val activityType: String? = bundle?.getString("activityType")
+        val entryType: String? = bundle?.getString("entryType")
+
         database = RunDatabase.getInstance(this)
+        databaseDao = database.runDao
+        runRepository = RunRepository(databaseDao)
 
         //below calendardialog implementation from https://stackoverflow.com/questions/45842167/how-to-use-datepickerdialog-in-kotlin
         var calendar = Calendar.getInstance()
@@ -141,6 +154,45 @@ class ManualEntryActivity : AppCompatActivity() {
 
         val manualSave: Button = findViewById(R.id.manualSave)
         manualSave.setOnClickListener {
+            viewModelFactory = RunViewModelFactory(runRepository)
+            runViewModel = ViewModelProvider(this, viewModelFactory).get(RunViewModel::class.java)
+            val run = Run()
+            if (activityType != null) {
+                run.activityType = activityType
+            }
+            if (entryType != null) {
+                run.entryType = entryType
+            }
+            val sdf = SimpleDateFormat("yyyy-MM-dd_HH:mm:ss")
+            val dateTimeString: String = sdf.format(calendar.time)
+
+            run.dateTime = dateTimeString
+            if (durationInput.isBlank()) {
+                run.duration = 0F
+            }
+            else {
+                run.duration = durationInput.toFloat()
+            }
+            if (distanceInput.isBlank()) {
+                run.distance = 0F
+            }
+            else {
+                run.distance = distanceInput.toFloat()
+            }
+            if (caloriesInput.isBlank()) {
+                run.calories = 0
+            }
+            else {
+                run.calories = caloriesInput.toInt()
+            }
+            if (heartRateInput.isBlank()) {
+                run.heartRate = 0
+            }
+            else {
+                run.heartRate = heartRateInput.toInt()
+            }
+            run.comment = commentInput
+            runViewModel.insert(run)
             finish()
         }
 

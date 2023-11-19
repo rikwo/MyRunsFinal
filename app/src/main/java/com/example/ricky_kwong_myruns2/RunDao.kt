@@ -16,4 +16,7 @@ interface RunDao {
 
     @Query("DELETE FROM run_table WHERE id = :key")
     suspend fun deleteRun(key: Long)
+
+    @Query("DELETE FROM run_table")
+    suspend fun deleteAllEntries()
 }

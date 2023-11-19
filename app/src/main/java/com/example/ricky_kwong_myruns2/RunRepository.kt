@@ -20,4 +20,9 @@ class RunRepository(private val runDao: RunDao) {
             runDao.deleteRun(id)
         }
     }
+    fun deleteAll() {
+        CoroutineScope(Dispatchers.IO).launch {
+            runDao.deleteAllEntries()
+        }
+    }
 }

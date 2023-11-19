@@ -47,6 +47,8 @@ class StartFragment(val fContext: Context): Fragment() {
 
             if (inputResultPosition == 0) {
                 val intent = Intent(fContext, ManualEntryActivity::class.java)
+                intent.putExtra("activityType", activityResult)
+                intent.putExtra("entryType", inputResult)
                 startActivity(intent)
             }
             else if (inputResultPosition == 1) {

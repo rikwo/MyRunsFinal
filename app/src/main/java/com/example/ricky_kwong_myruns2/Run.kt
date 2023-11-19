@@ -6,18 +6,20 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "run_table")
 data class Run(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0L,
-    @ColumnInfo(name = "date_column")
-    val date: String,
-    @ColumnInfo(name = "time_column")
-    val time: String,
+    var id: Long = 0L,
+    @ColumnInfo(name = "entry_type_column")
+    var entryType: String = "",
+    @ColumnInfo(name = "activity_type_column")
+    var activityType: String = "",
+    @ColumnInfo(name = "date_time_column")
+    var dateTime: String = "",
     @ColumnInfo(name = "duration_column")
-    val duration: String,
+    var duration: Float = 0F,
     @ColumnInfo(name = "distance_column")
-    val distance: String,
+    var distance: Float = 0F,
     @ColumnInfo(name = "calories_column")
-    val calories: String,
+    var calories: Int = 0,
     @ColumnInfo(name = "heart_rate_column")
-    val heartRate: String,
+    var heartRate: Int = 0,
     @ColumnInfo(name = "comment_column")
-    val comment: String,)
+    var comment: String = "")

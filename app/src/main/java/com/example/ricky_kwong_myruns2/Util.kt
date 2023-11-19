@@ -51,4 +51,19 @@ object Util {
         var ret = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
         return ret
     }
+
+    fun milesToKm(miles: Float): Float {
+        val km = miles * 1.609344F
+        return km
+    }
+
+    fun minutes(duration: Float): Int {
+        return duration.toInt()
+    }
+
+    fun seconds(duration: Float): Int {
+        val minutes = duration.toInt()
+        val seconds = (60 * (duration - minutes)).toInt()
+        return seconds
+    }
 }
