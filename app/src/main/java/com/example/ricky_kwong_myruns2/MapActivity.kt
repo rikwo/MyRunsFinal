@@ -1,5 +1,7 @@
 package com.example.ricky_kwong_myruns2
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
@@ -11,9 +13,11 @@ import android.widget.Button
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
@@ -21,7 +25,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     private lateinit var mMap: GoogleMap
     private var mapCentered = false
     private lateinit var markerOptions: MarkerOptions
-
 
     private var startTime: Long = 0
     private var distance: Float = 0.0f
@@ -31,6 +34,17 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+
+        val sharedPreferences: SharedPreferences = this.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val units: Int = sharedPreferences.getInt("unit", -1)
+        val unitString = when (units) {
+            0, -1 -> {
+                "miles"
+            }
+            else -> {
+                "kilometers"
+            }
+        }
 
         //function from XD locations lecture
         val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment)
@@ -58,6 +72,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+        markerOptions = MarkerOptions()
 
         mMap.mapType = GoogleMap.MAP_TYPE_NORMAL
 
@@ -79,6 +94,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, LocationListener {
     override fun onLocationChanged(location: Location) {
         val lat = location.latitude
         val lng = location.longitude
+        val latLng = LatLng(lat, lng)
+
+        if (!mapCentered) {
+            val cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17f)
+            mMap.animateCamera(cameraUpdate)
+            markerOptions.position(latLng)
+            mMap.addMarker(markerOptions)
+            mapCentered = true
+        }
 
         if (previousLocation != null) {
             val newDistance = location.distanceTo(previousLocation!!)
