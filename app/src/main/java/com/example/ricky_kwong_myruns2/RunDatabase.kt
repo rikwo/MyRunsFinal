@@ -19,7 +19,7 @@ abstract class RunDatabase: RoomDatabase() {
                 var instance = INSTANCE
                 if(instance == null){
                     instance = Room.databaseBuilder(context.applicationContext,
-                        RunDatabase::class.java, "comment_table").build()
+                        RunDatabase::class.java, "run_table").build()
                     INSTANCE = instance
                 }
                 return instance

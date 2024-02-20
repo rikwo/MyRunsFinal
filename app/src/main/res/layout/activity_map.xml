@@ -17,6 +17,56 @@
         android:layout_alignParentTop="true"
         android:layout_weight="1"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="16dp">
+
+        <TextView
+            android:text="Type: "
+            android:id="@+id/textType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/>
+        <TextView
+            android:text="Avg speed: "
+            android:id="@+id/textAvgSpeed"
+            android:layout_below="@+id/textType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/>
+        <TextView
+            android:text="Cur speed: "
+            android:id="@+id/textCurSpeed"
+            android:layout_below="@+id/textAvgSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/>
+        <TextView
+            android:text="Climb: "
+            android:id="@+id/textClimb"
+            android:layout_below="@+id/textCurSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/>
+        <TextView
+            android:text="Calorie: "
+            android:id="@+id/textCalorie"
+            android:layout_below="@+id/textClimb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/>
+        <TextView
+            android:text="Distance: "
+            android:id="@+id/textDistance"
+            android:layout_below="@+id/textCalorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"/>
+
+    </RelativeLayout>
+
     <LinearLayout
         android:id="@+id/buttonsLayout"
         android:layout_width="match_parent"

@@ -1,6 +1,8 @@
 package com.example.ricky_kwong_myruns2
 
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +28,8 @@ class HistoryFragment: Fragment() {//private val context: Activity, private val 
     private lateinit var viewModelFactory: RunViewModelFactory
     private lateinit var runViewModel: RunViewModel
 
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -34,6 +38,14 @@ class HistoryFragment: Fragment() {//private val context: Activity, private val 
         arrayList = ArrayList()
         arrayAdapter = HistoryListAdapter(requireActivity(), arrayList)
         runListView.adapter = arrayAdapter
+
+        sharedPreferences = requireContext().getSharedPreferences("settings", Context.MODE_PRIVATE)
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
+            if (key == "unit") {
+                arrayAdapter.notifyDataSetChanged()
+            }
+        }
 
         database = RunDatabase.getInstance(requireActivity())
         runDao = database.runDao

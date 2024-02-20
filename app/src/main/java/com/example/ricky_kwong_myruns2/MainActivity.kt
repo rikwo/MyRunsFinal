@@ -1,8 +1,12 @@
 package com.example.ricky_kwong_myruns2
 
+import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Spinner
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
@@ -21,15 +25,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fragmentList: ArrayList<Fragment>
     private val tabNames = arrayOf("Start", "History", "Settings")
 
+    fun checkPermission() {
+        if (Build.VERSION.SDK_INT < 23) return
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+            PackageManager.PERMISSION_GRANTED)
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 0)
+    }
+
     //fragments implementation from XD actiontabs demo
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        checkPermission()
+
         viewPager2 = findViewById(R.id.viewpager2)
         tabLayout = findViewById(R.id.tabLayout)
 
-        startFragment = StartFragment(this)
+        startFragment = StartFragment()
         historyFragment = HistoryFragment()
         settingsFragment = SettingsFragment(this)
 

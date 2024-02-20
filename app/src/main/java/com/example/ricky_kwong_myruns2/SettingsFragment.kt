@@ -23,6 +23,8 @@ import java.security.AccessController.getContext
 //list view code adapted from https://www.youtube.com/watch?v=EwwdQt3_fFU
 class SettingsFragment(val fContext: Context): Fragment() {
 
+    private var previousUnitIndex: Int = -1
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
@@ -67,12 +69,17 @@ class SettingsFragment(val fContext: Context): Fragment() {
             val unitAlert = AlertDialog.Builder(fContext)
             unitAlert.setTitle("Unit Preference")
             val units = arrayOf("Metric (Kilometers)", "Imperial (Miles)")
+            val checkedItem = if (unitIndex != -1) unitIndex else 0
             unitAlert.setSingleChoiceItems(units, unitIndex) { dialogInterface, i ->
-                unitIndex = i
-                with (sharedPreferences.edit()) {
-                    putInt("unit", unitIndex)
-                    apply()
+                if (i != previousUnitIndex) {
+                    unitIndex = i
+                    with(sharedPreferences.edit()) {
+                        putInt("unit", unitIndex)
+                        apply()
+                    }
+                    previousUnitIndex = i
                 }
+
                 dialogInterface.dismiss()
             }
             unitAlert.setNeutralButton("Cancel") { dialog, which ->

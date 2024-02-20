@@ -57,6 +57,11 @@ object Util {
         return km
     }
 
+    fun kmtoMiles(km: Float): Float {
+        val miles = km * 0.621371F
+        return miles
+    }
+
     fun minutes(duration: Float): Int {
         return duration.toInt()
     }

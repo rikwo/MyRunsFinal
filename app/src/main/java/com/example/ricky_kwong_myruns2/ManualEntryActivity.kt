@@ -11,10 +11,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import java.sql.Date
-import java.sql.Time
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 
 
 class ManualEntryActivity : AppCompatActivity() {

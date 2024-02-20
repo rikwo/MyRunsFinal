@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 
 class HistoryListAdapter(private val context: Context, private var runList: List<Run>): BaseAdapter() {
+
     override fun getItem(position: Int): Any {
         return runList.get(position)
     }
@@ -27,10 +28,10 @@ class HistoryListAdapter(private val context: Context, private var runList: List
         val units = sharedPref.getInt("unit", -1)
         val unitString = when (units) {
             0, -1 -> {
-                "miles"
+                "kilometers"
             }
             else -> {
-                "kilometers"
+                "miles"
             }
         }
         val unitConversion = when (units) {
@@ -38,7 +39,7 @@ class HistoryListAdapter(private val context: Context, private var runList: List
                 runList.get(position).distance
             }
             else -> {
-                Util.milesToKm(runList.get(position).distance.toFloat()).toString()
+                Util.milesToKm(runList.get(position).distance.toFloat())
             }
         }
 
